@@ -3,6 +3,9 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
 require("dotenv").config();
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser")
+const authRoute = require("./routes/authRoute");
 const { MONGO_URL, PORT } = process.env;
 
 mongoose.connect(MONGO_URL, {
@@ -24,4 +27,8 @@ app.use(
     })
 );
 
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use("/", authRoute);
